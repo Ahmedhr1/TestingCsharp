@@ -97,9 +97,12 @@ public static class Utils
     }
 
     public static Obj EmailDomainCounter(){
-        var resultFromDb = SQLQuery("SELECT * FROM emailDomainCounter");
+        Utils.CreateMockUsers();
+        var resultFromDb = SQLQuery("SELECT * FROM emailDomainCounter ORDER BY counter DESC");
         var result = Obj();
         resultFromDb.ForEach(row => result[row.domain] = row.counter );
+        Utils.RemoveMockUsers();
+        Log("Check domain results", result);
         return result;
     }
 
